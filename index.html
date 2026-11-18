@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<title>Life OS ✨</title>
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon-192.png">
+<link rel="icon" type="image/png" href="./icon-192.png">
+<meta name="theme-color" content="#0A0534">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Life OS">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+  html,body{margin:0;padding:0;height:100%;background:#0A0534;overflow:hidden}
+  /* #0A0534 is the loading screen's own background, so the handover has no flash
+     and no second loading screen is needed here. */
+  iframe{position:fixed;inset:0;width:100%;height:100%;border:0;display:block;background:#0A0534}
+  #stamp{position:fixed;right:4px;bottom:2px;z-index:2;font:9px/1 -apple-system,Arial,sans-serif;
+         color:rgba(255,255,255,.18);pointer-events:none}
+</style>
+</head>
+<body>
+<!-- Paste the Apps Script /exec URL here. It must end in /exec, not /dev. -->
+<script>var EXEC_URL = "PASTE_YOUR_EXEC_URL_HERE";</script>
+
+<iframe id="app" title="Life OS" allow="clipboard-write"></iframe>
+<div id="stamp">W-1.0.0</div>
+
+<script>
+(function () {
+  var f = document.getElementById('app');
+  if (!EXEC_URL || EXEC_URL.indexOf('PASTE_') === 0) {
+    document.body.innerHTML =
+      '<div style="color:#fff;font:15px/1.5 -apple-system,Arial;padding:24px">' +
+      'EXEC_URL is not set in index.html.</div>';
+    return;
+  }
+  f.src = EXEC_URL;
+})();
+
+// Caches icons only. index.html is deliberately never cached — a cached wrapper
+// makes GitHub uploads look like they did nothing.
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', function () {
+    navigator.serviceWorker.register('./sw.js').catch(function () {});
+  });
+}
+</script>
+</body>
+</html>
